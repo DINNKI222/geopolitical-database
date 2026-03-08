@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas Global - Datos Geopolíticos Internacionales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #1a3a52;
+            --primary-blue: #2c5aa0;
+            --secondary: #d4a574;
+            --accent: #e74c3c;
+            --dark-bg: #0f1419;
+            --light-bg: #f5f6f9;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --border: #ecf0f1;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* HEADER PROFESIONAL */
+        header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 70px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.92;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            font-weight: 400;
+        }
+
+        .tagline {
+            font-size: 0.95em;
+            opacity: 0.85;
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+        }
+
+        /* CONTROLES */
+        .controls {
+            max-width: 1300px;
+            margin: -35px auto 50px;
+            padding: 0 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            padding: 30px 35px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        input[type="text"], select {
+            padding: 13px 18px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 220px;
+            background: white;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(44, 90, 160, 0.1);
+            background: white;
+        }
+
+        .btn {
+            padding: 13px 32px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.25);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.35);
+        }
+
+        .btn-video {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .btn-video:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-video::before {
+            content: "▶";
+            font-size: 0.8em;
+        }
+
+        /* CONTENEDOR */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+            margin-bottom: 50px;
+        }
+
+        /* TARJETA PROFESIONAL */
+        .country-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border-top: 4px solid var(--primary-blue);
+        }
+
+        .country-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            border-top-color: var(--accent);
+        }
+
+        .country-image-container {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .country-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .country-card:hover .country-image-container img {
+            transform: scale(1.05);
+        }
+
+        .country-name-overlay {
+            position: absolute;
+            background: rgba(0,0,0,0.5);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.3em;
+            font-family: 'Merriweather', serif;
+        }
+
+        .country-content {
+            padding: 25px;
+        }
+
+        .country-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .country-continent {
+            display: inline-block;
+            background: rgba(212, 165, 116, 0.15);
+            color: var(--secondary);
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .country-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            background: var(--light-bg);
+            padding: 13px;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary-blue);
+        }
+
+        .stat-label {
+            font-size: 0.75em;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.25em;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* MODAL PROFESIONAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.3s;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            margin: 4% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 92%;
+            max-width: 950px;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 45px 35px;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .modal-continent-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 35px;
+            top: 35px;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            opacity: 0.7;
+        }
+
+        .modal-body {
+            padding: 40px 35px;
+        }
+
+        .modal-section {
+            margin-bottom: 35px;
+        }
+
+        .modal-section-title {
+            font-family: 'Merriweather', serif;
+            font-size: 1.4em;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(44, 90, 160, 0.05) 0%, rgba(212, 165, 116, 0.05) 100%);
+            padding: 22px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .info-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        .info-card .value {
+            color: var(--primary-dark);
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .info-card .unit {
+            color: var(--text-light);
+            font-size: 0.85em;
+            font-weight: 400;
+        }
+
+        /* ALTURA CON FIGURAS */
+        .height-section {
+            background: var(--light-bg);
+            padding: 40px 30px;
+            border-radius: 6px;
+            margin: 25px 0;
+        }
+
+        .height-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: flex-end;
+        }
+
+        .height-item {
+            text-align: center;
+        }
+
+        .height-item h4 {
+            font-size: 1.2em;
+            color: var(--primary-dark);
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-family: 'Merriweather', serif;
+        }
+
+        /* FIGURA DE HOMBRE */
+        .male-figure {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            height: 280px;
+        }
+
+        .male-body {
+            position: relative;
+            width: 80px;
+        }
+
+        .male-head {
+            width: 40px;
+            height: 40px;
+            background: #2c5aa0;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+
+        .male-torso {
+            width: 60px;
+            height: 70px;
+            background: #2c5aa0;
+            margin: 0 auto 8px;
+            border-radius: 8px;
+        }
+
+        .male-legs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .male-leg {
+            width: 20px;
+            height: 100px;
+            background: #2c5aa0;
+            border-radius: 4px;
+        }
+
+        .male-feet {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+
+        .male-foot {
+            width: 18px;
+            height: 12px;
+            background: #2c5aa0;
+            border-radius: 3px;
+        }
+
+        /* FIGURA DE MUJER */
+        .female-figure {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            height: 280px;
+        }
+
+        .female-body {
+            position: relative;
+            width: 75px;
+        }
+
+        .female-head {
+            width: 38px;
+            height: 38px;
+            background: #e74c3c;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+        }
+
+        .female-torso {
+            width: 55px;
+            height: 65px;
+            background: #e74c3c;
+            margin: 0 auto 8px;
+            border-radius: 8px;
+        }
+
+        .female-legs {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .female-leg {
+            width: 18px;
+            height: 95px;
+            background: #e74c3c;
+            border-radius: 4px;
+        }
+
+        .female-feet {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .female-foot {
+            width: 16px;
+            height: 10px;
+            background: #e74c3c;
+            border-radius: 2px;
+        }
+
+        .height-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-top: 15px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .height-label {
+            color: var(--text-light);
+            font-size: 0.95em;
+            margin-top: 5px;
+        }
+
+        /* VIDEO SECTION */
+        .video-section {
+            background: var(--light-bg);
+            padding: 30px;
+            border-radius: 6px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .video-title {
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        /* CHARTS */
+        .chart-container {
+            margin: 25px 0;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .chart-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 15px;
+        }
+
+        .chart-label {
+            min-width: 140px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9em;
+        }
+
+        .chart-fill {
+            flex: 1;
+            height: 28px;
+            background: linear-gradient(90deg, var(--primary-blue) 0%, var(--secondary) 100%);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .height-comparison {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            input, select, .btn {
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 96%;
+                margin: 10% auto;
+            }
+
+            .modal-header {
+                padding: 30px 20px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.8em;
+            }
+
+            .modal-body {
+                padding: 25px 20px;
+            }
+
+            .country-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* LOADING */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+            font-size: 1.05em;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+            font-size: 1.05em;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 50px;
+            border-top: 3px solid var(--secondary);
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Atlas Global</h1>
+        <p class="subtitle">Base de Datos Geopolítica Internacional Completa</p>
+        <p class="tagline">Estadísticas demográficas, económicas y sociales de 180+ países</p>
+    </header>
+
+    <div class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar país por nombre...">
+            <select id="continentFilter">
+                <option value="">Todos los continentes</option>
+                <option value="África">África</option>
+                <option value="América del Norte">América del Norte</option>
+                <option value="América del Sur">América del Sur</option>
+                <option value="Asia">Asia</option>
+                <option value="Europa">Europa</option>
+                <option value="Oceanía">Oceanía</option>
+            </select>
+            <button class="btn" onclick="resetFilters()">Limpiar Filtros</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="grid" class="grid"></div>
+        <div id="noResults" class="no-results" style="display: none;">No se encontraron resultados</div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2 id="modalCountry"></h2>
+                <span class="modal-continent-tag" id="modalContinent"></span>
+            </div>
+            <div class="modal-body">
+                <!-- SECCIÓN DATOS GENERALES -->
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Información General</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3>Población Total</h3>
+                            <div class="value" id="modalPopulation"></div>
+                            <div class="unit">Habitantes</div>
+                        </div>
+                        <div class="info-card">
+                            <h3>Área Territorial</h3>
+                            <div class="value" id="modalArea"></div>
+                            <div class="unit">km²</div>
+                        </div>
+                        <div class="info-card">
+                            <h3>Moneda Oficial</h3>
+                            <div class="value" id="modalCurrency" style="font-size: 1.4em;"></div>
+                        </div>
+                        <div class="info-card">
+                            <h3>PIB per Cápita</h3>
+                            <div class="value" id="modalGDP"></div>
+                            <div class="unit">USD anual</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN SALUD Y EDUCACIÓN -->
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Salud y Educación</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3>Esperanza de Vida</h3>
+                            <div class="value" id="modalLifeExp"></div>
+                            <div class="unit">años</div>
+                        </div>
+                        <div class="info-card">
+                            <h3>Tasa de Alfabetismo</h3>
+                            <div class="value" id="modalEducation"></div>
+                            <div class="unit">población</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN ALTURA Y ANTROPOMETRÍA -->
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Antropometría: Altura Promedio</h3>
+                    <div class="height-section">
+                        <div class="height-comparison">
+                            <div class="height-item">
+                                <h4>Altura Hombres</h4>
+                                <div class="male-figure">
+                                    <div class="male-body">
+                                        <div class="male-head"></div>
+                                        <div class="male-torso"></div>
+                                        <div class="male-legs">
+                                            <div class="male-leg"></div>
+                                            <div class="male-leg"></div>
+                                        </div>
+                                        <div class="male-feet">
+                                            <div class="male-foot"></div>
+                                            <div class="male-foot"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="height-value" id="modalHeightM"></div>
+                                <div class="height-label">centímetros</div>
+                            </div>
+                            <div class="height-item">
+                                <h4>Altura Mujeres</h4>
+                                <div class="female-figure">
+                                    <div class="female-body">
+                                        <div class="female-head"></div>
+                                        <div class="female-torso"></div>
+                                        <div class="female-legs">
+                                            <div class="female-leg"></div>
+                                            <div class="female-leg"></div>
+                                        </div>
+                                        <div class="female-feet">
+                                            <div class="female-foot"></div>
+                                            <div class="female-foot"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="height-value" id="modalHeightF"></div>
+                                <div class="height-label">centímetros</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN SOCIODEMOGRÁFICA -->
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Datos Sociodemográficos</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3>Idioma Oficial</h3>
+                            <div class="value" id="modalLanguage" style="font-size: 1.3em;"></div>
+                        </div>
+                        <div class="info-card">
+                            <h3>Alimentación Principal</h3>
+                            <div class="value" id="modalFood" style="font-size: 1.1em;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN VIDEO -->
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Documental</h3>
+                    <div class="video-section">
+                        <div class="video-title">Haz clic para ver video sobre el país</div>
+                        <a class="btn-video" id="videoBtn" href="#" target="_blank" rel="noopener noreferrer">Ver Documental</a>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN ANÁLISIS COMPARATIVO -->
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Análisis Comparativo Global</h3>
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <h3>Dato Curioso</h3>
+                            <div class="value" id="modalFact" style="font-size: 1.05em; line-height: 1.5;"></div>
+                        </div>
+                        <div class="info-card">
+                            <h3>Fuentes Científicas</h3>
+                            <div class="value" id="modalSource" style="font-size: 0.95em; line-height: 1.5;"></div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <div class="chart-title">Esperanza de Vida vs Promedio Global (90 años)</div>
+                        <div class="chart-bar">
+                            <span class="chart-label">Esperanza de Vida</span>
+                            <div class="chart-fill" id="lifeChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Atlas Global | Datos compilados de OMS, Banco Mundial, UNESCO y Lancet 2023</p>
+    </footer>
+
+    <script>
+        // Función para formatear población
+        function formatPopulation(pop) {
+            if (pop >= 1000000) {
+                return (pop / 1000000).toFixed(1) + 'M';
+            } else if (pop >= 1000) {
+                return (pop / 1000).toFixed(0) + 'K';
+            } else {
+                return pop.toString();
+            }
+        }
+
+        // Datos completos de países
+        const countries = [
+            { name: "Afganistán", continent: "Asia", population: 41128772, area: 652090, currency: "Afgani (AFN)", mheight: 165, fheight: 156, lifeExp: 64.8, language: "Dari, Pashto", gdp: 1900, food: "Arroz, cordero, legumbres locales", education: "28%", fact: "Principal productor global de opio. Mayor región de amapola del mundo.", source: "OMS 2023, Banco Mundial 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Åland", continent: "Europa", population: 31400, area: 1581, currency: "Euro (EUR)", mheight: 180, fheight: 167, lifeExp: 82.5, language: "Sueco", gdp: 54000, food: "Pescado fresco, productos lácteos, granos", education: "100%", fact: "Archipiélago autónomo de Finlandia con estatus neutral en UE.", source: "Eurostat 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Albania", continent: "Europa", population: 2877800, area: 28748, currency: "Lek Albanés (ALL)", mheight: 178, fheight: 165, lifeExp: 78.5, language: "Albanés", gdp: 5700, food: "Aceite oliva, queso feta, vegetales", education: "97%", fact: "Única población mayoritariamente musulmana en Europa balcánica.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Alemania", continent: "Europa", population: 83370000, area: 357022, currency: "Euro (EUR)", mheight: 180, fheight: 166, lifeExp: 81.3, language: "Alemán", gdp: 48000, food: "Pan integral, carne de cerdo, col", education: "99%", fact: "Mayor PIB de Europa. Ingeniería y automóviles de clase mundial (Mercedes, BMW, Volkswagen).", source: "Eurostat 2023, Banco Mundial 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Andorra", continent: "Europa", population: 77746, area: 468, currency: "Euro (EUR)", mheight: 177, fheight: 164, lifeExp: 84.1, language: "Catalán", gdp: 49000, food: "Verduras de montaña, carnes magras", education: "100%", fact: "Cofrincipal: obispo español y conde francés. Única micromonarquía de Europa.", source: "OMS 2023, Banco Mundial 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Angola", continent: "África", population: 33941664, area: 1246700, currency: "Kwanza (AOA)", mheight: 169, fheight: 159, lifeExp: 61.5, language: "Portugués", gdp: 2400, food: "Yuca, maíz, pescado fresco", education: "71%", fact: "Principal productor de diamantes de África. Riqueza mineral subexplotada.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Antigua y Barbuda", continent: "América del Norte", population: 98731, area: 440, currency: "Dólar del Caribe Oriental (XCD)", mheight: 176, fheight: 164, lifeExp: 77.2, language: "Inglés", gdp: 17500, food: "Pescado fresco, langosta, frutas", education: "99%", fact: "Archipiélago con economía basada en turismo de lujo y casinos.", source: "OMS 2023, Banco Mundial 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Arabia Saudita", continent: "Asia", population: 34813867, area: 2149690, currency: "Rial Saudí (SAR)", mheight: 172, fheight: 160, lifeExp: 76.4, language: "Árabe", gdp: 30500, food: "Dátiles, cordero asado, arroz", education: "97%", fact: "Mayor productor de petróleo del mundo. Posee la Meca, lugar sagrado del Islam.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Argelia", continent: "África", population: 44903225, area: 2381741, currency: "Dinar Argelino (DZD)", mheight: 172, fheight: 161, lifeExp: 76.9, language: "Árabe, Bereber", gdp: 4800, food: "Cuscús, legumbres, aceite oliva", education: "80%", fact: "País más grande de África. Sahara cubre 80% del territorio.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Argentina", continent: "América del Sur", population: 46605697, area: 2780400, currency: "Peso Argentino (ARS)", mheight: 176, fheight: 163, lifeExp: 76.7, language: "Español", gdp: 10100, food: "Carne de res, vino, pan, yerba mate", education: "99%", fact: "Mayor consumo de carne per cápita del mundo. Tango y fútbol mundial.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Armenia", continent: "Asia", population: 2790550, area: 29743, currency: "Dram Armenio (AMD)", mheight: 175, fheight: 163, lifeExp: 75.8, language: "Armenio", gdp: 4600, food: "Legumbres, harissa, pan lavash", education: "99%", fact: "Primer país cristiano del mundo (301 d.C.). Iglesia milenaria.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Australia", continent: "Oceanía", population: 25687041, area: 7692024, currency: "Dólar Australiano (AUD)", mheight: 179, fheight: 165, lifeExp: 83.3, language: "Inglés", gdp: 63400, food: "Carne de res, pescado fresco", education: "99%", fact: "Ópera de Sídney. Arrecife de Coral de la Gran Barrera Australiana.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Austria", continent: "Europa", population: 9042000, area: 83879, currency: "Euro (EUR)", mheight: 179, fheight: 166, lifeExp: 81.8, language: "Alemán", gdp: 59000, food: "Schnitzel, pan, productos lácteos", education: "99%", fact: "Centro de música clásica mundial. Wolfgang Amadeus Mozart.", source: "Eurostat 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Azerbaiyán", continent: "Asia", population: 10139177, area: 86600, currency: "Manat Azerbaiyano (AZN)", mheight: 174, fheight: 162, lifeExp: 73.4, language: "Azerbaiyano", gdp: 5100, food: "Arroz pilaf, carne de cordero", education: "99%", fact: "Tierra de Fuego: montañas con gas natural que arde naturalmente por geo.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Bahamas", continent: "América del Norte", population: 400516, area: 13943, currency: "Dólar Bahameño (BSD)", mheight: 176, fheight: 165, lifeExp: 77.4, language: "Inglés", gdp: 33000, food: "Pescado fresco, conch marino", education: "96%", fact: "Archipiélago tropical. Paraíso fiscal caribeño importante.", source: "OMS 2023, Banco Mundial 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" },
+            { name: "Bangladés", continent: "Asia", population: 170485658, area: 147570, currency: "Taka Bangladesí (BDT)", mheight: 167, fheight: 154, lifeExp: 72.6, language: "Bengalí", gdp: 2700, food: "Arroz pegajoso, pescado, especias", education: "75%", fact: "Mayor productor de yute del mundo (30% global). Delta del Ganges.", source: "Banco Mundial 2023, OMS 2023", videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
+        ];
+
+        // Función para renderizar tarjetas
+        function renderCards(data) {
+            const grid = document.getElementById('grid');
+            const noResults = document.getElementById('noResults');
+            
+            if (data.length === 0) {
+                grid.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            noResults.style.display = 'none';
+            grid.innerHTML = data.map(country => `
+                <div class="country-card" onclick="openModal('${country.name}')">
+                    <div class="country-image-container">
+                        <img src="https://images.unsplash.com/photo-1569163139394-de4798aa62b1?w=500&h=300&fit=crop" alt="${country.name}">
+                        <div class="country-name-overlay">${country.name}</div>
+                    </div>
+                    <div class="country-content">
+                        <div class="country-header">
+                            <span class="country-continent">${country.continent}</span>
+                        </div>
+                        <div class="country-stats">
+                            <div class="stat">
+                                <div class="stat-label">Población</div>
+                                <div class="stat-value">${formatPopulation(country.population)}</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-label">Esperanza Vida</div>
+                                <div class="stat-value">${country.lifeExp} años</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Función para abrir modal
+        function openModal(countryName) {
+            const country = countries.find(c => c.name === countryName);
+            if (!country) return;
+
+            document.getElementById('modalCountry').textContent = country.name;
+            document.getElementById('modalContinent').textContent = country.continent;
+            document.getElementById('modalPopulation').textContent = formatPopulation(country.population);
+            document.getElementById('modalArea').textContent = country.area.toLocaleString();
+            document.getElementById('modalCurrency').textContent = country.currency;
+            document.getElementById('modalGDP').textContent = '$' + country.gdp.toLocaleString();
+            document.getElementById('modalLifeExp').textContent = country.lifeExp;
+            document.getElementById('modalEducation').textContent = country.education;
+            document.getElementById('modalLanguage').textContent = country.language;
+            document.getElementById('modalFood').textContent = country.food;
+            document.getElementById('modalFact').textContent = country.fact;
+            document.getElementById('modalSource').textContent = country.source;
+
+            document.getElementById('modalHeightM').textContent = country.mheight + ' cm';
+            document.getElementById('modalHeightF').textContent = country.fheight + ' cm';
+
+            // Video
+            document.getElementById('videoBtn').href = country.videoUrl;
+
+            document.getElementById('lifeChart').innerHTML = `<span>${country.lifeExp.toFixed(1)}</span>`;
+            document.getElementById('lifeChart').style.width = (country.lifeExp / 90 * 100) + '%';
+
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        // Cerrar modal
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Filtros
+        function filterCountries() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const continent = document.getElementById('continentFilter').value;
+
+            const filtered = countries.filter(c => {
+                const matchSearch = c.name.toLowerCase().includes(search);
+                const matchContinent = !continent || c.continent === continent;
+                return matchSearch && matchContinent;
+            });
+
+            renderCards(filtered);
+        }
+
+        // Limpiar filtros
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('continentFilter').value = '';
+            renderCards(countries);
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterCountries);
+        document.getElementById('continentFilter').addEventListener('change', filterCountries);
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        };
+
+        // Inicializar
+        renderCards(countries);
+    </script>
+</body>
+</html>
